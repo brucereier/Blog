@@ -18,8 +18,8 @@ function App() {
 
     fetchWordCount();
 
-    //5 seconds
-    const intervalId = setInterval(fetchWordCount, 5000);
+    //1 minute
+    const intervalId = setInterval(fetchWordCount, 60000);
     return () => clearInterval(intervalId);
   }, []);
 
