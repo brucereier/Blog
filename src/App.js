@@ -18,7 +18,7 @@ function App() {
 
     fetchWordCount();
 
-    //1 minute
+    //1 minute lol
     const intervalId = setInterval(fetchWordCount, 60000);
     return () => clearInterval(intervalId);
   }, []);
