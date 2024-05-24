@@ -16,8 +16,7 @@ const s3 = new AWS.S3({
 });
 
 const BUCKET_NAME = process.env.BUCKET_NAME;
-
-let wordCount = 0;
+const PUBLISHED_FOLDER = 'published/';
 
 const getObject = async (bucket, key) => {
   const params = { Bucket: bucket, Key: key };
@@ -43,16 +42,68 @@ const countWordsInS3 = async (bucket, prefix = '') => {
   return totalWordCount;
 };
 
+const listPublishedArticles = async () => {
+  const listParams = { Bucket: BUCKET_NAME, Prefix: PUBLISHED_FOLDER };
+  const files = await s3.listObjectsV2(listParams).promise();
+  const articles = files.Contents.filter(file => file.Key.endsWith('.md')).map(file => {
+    const key = file.Key;
+    const keyWithoutPrefix = key.replace(PUBLISHED_FOLDER, '').replace('.md', '');
+    const isImportant = keyWithoutPrefix.startsWith('I');
+    const datePart = isImportant ? keyWithoutPrefix.substring(1, keyWithoutPrefix.indexOf(' ')) : keyWithoutPrefix.substring(0, keyWithoutPrefix.indexOf(' '));
+    const title = keyWithoutPrefix.substring(keyWithoutPrefix.indexOf(' ') + 1);
+    return { key, date: datePart, title, isImportant };
+  }).sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+  const importantArticles = articles.filter(article => article.isImportant);
+  const nonImportantArticles = articles.filter(article => !article.isImportant);
+
+  return { importantArticles, nonImportantArticles };
+};
+
 app.use(cors());
 
-// Endpoint to get word count from S3
+// Endpoint to get total word count from S3
 app.get('/wordcount', async (req, res) => {
   try {
-    wordCount = await countWordsInS3(BUCKET_NAME);
+    const wordCount = await countWordsInS3(BUCKET_NAME);
     res.json({ wordCount });
   } catch (error) {
     console.error('Error fetching word count:', error);
     res.status(500).json({ error: 'Error fetching word count' });
+  }
+});
+
+// Endpoint to get published word count from S3
+app.get('/publishedwordcount', async (req, res) => {
+  try {
+    const wordCount = await countWordsInS3(BUCKET_NAME, PUBLISHED_FOLDER);
+    res.json({ wordCount });
+  } catch (error) {
+    console.error('Error fetching published word count:', error);
+    res.status(500).json({ error: 'Error fetching published word count' });
+  }
+});
+
+// Endpoint to list published articles
+app.get('/published-articles', async (req, res) => {
+  try {
+    const { importantArticles, nonImportantArticles } = await listPublishedArticles();
+    res.json({ importantArticles, nonImportantArticles });
+  } catch (error) {
+    console.error('Error listing published articles:', error);
+    res.status(500).json({ error: 'Error listing published articles' });
+  }
+});
+
+// Endpoint to get an individual article
+app.get('/article/:key', async (req, res) => {
+  try {
+    const key = req.params.key;
+    const articleContent = await getObject(BUCKET_NAME, key);
+    res.json({ content: articleContent });
+  } catch (error) {
+    console.error('Error fetching article:', error);
+    res.status(500).json({ error: 'Error fetching article' });
   }
 });
 
