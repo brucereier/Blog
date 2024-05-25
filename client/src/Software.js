@@ -34,7 +34,7 @@ const projects = [
     image: '/react.svg',
     title: 'Personal Portfolio',
     link: '',
-    description: 'Developed portfolio with React to showcase software projects and writing/reading projects. Over-engineered writing section to use Node.js server that links to my writing vault which is in an AWS S3 bucket in tandem with Google Books API. '
+    description: 'Developed portfolio with React to showcase software and writing projects. Over-engineered writing section to use Node.js server that links to my writing vault stored in an AWS S3 bucket to load new articles, allowing for website changes that do not require any modifications to the code.'
   },
 ];
 

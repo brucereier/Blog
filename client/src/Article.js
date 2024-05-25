@@ -8,6 +8,8 @@ import ReactMarkdown from 'react-markdown';
 function Article() {
   const { key } = useParams();
   const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,6 +18,15 @@ function Article() {
         const baseURL = process.env.REACT_APP_API_BASE_URL;
         const response = await axios.get(`${baseURL}/article/${encodeURIComponent(key)}`);
         setContent(response.data.content);
+
+        // Extract date and title from the key
+        const keyWithoutPrefix = key.replace('published/', '').replace('.md', '');
+        const isImportant = keyWithoutPrefix.startsWith('I');
+        const datePart = isImportant ? keyWithoutPrefix.substring(1, keyWithoutPrefix.indexOf(' ')) : keyWithoutPrefix.substring(0, keyWithoutPrefix.indexOf(' '));
+        const titlePart = keyWithoutPrefix.substring(keyWithoutPrefix.indexOf(' ') + 1);
+        
+        setDate(datePart);
+        setTitle(titlePart);
       } catch (error) {
         console.error('Error fetching article:', error);
       } finally {
@@ -31,7 +42,15 @@ function Article() {
       {loading ? (
         <Typography>Loading...</Typography>
       ) : (
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <>
+          <Typography variant="h2" align="center" gutterBottom>
+            {title}
+          </Typography>
+          <Typography variant="h5" align="center" gutterBottom>
+            {date}
+          </Typography>
+          <ReactMarkdown>{content}</ReactMarkdown>
+        </>
       )}
     </Box>
   );
