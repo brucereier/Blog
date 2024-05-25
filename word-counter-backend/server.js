@@ -107,6 +107,6 @@ app.get('/article/:key', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+app.use("/", (req, res) => {
+  res.send("Server is running.")
+})
