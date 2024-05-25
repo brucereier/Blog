@@ -4,7 +4,9 @@ import ArticlesList from './ArticlesList';
 
 function Writing() {
   return (
-      <ArticlesList />
+    <div>
+      hehe
+    </div>
   );
 }
 
