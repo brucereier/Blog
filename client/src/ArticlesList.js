@@ -14,6 +14,7 @@ function ArticlesList() {
     const fetchArticles = async () => {
       try {
         const baseURL = process.env.REACT_APP_API_BASE_URL
+        console.log(baseURL);
         const PublishedArticlesURL = baseURL + '/published-articles';
         const response = await axios.get(PublishedArticlesURL);
         setImportantArticles(response.data.importantArticles);

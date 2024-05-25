@@ -7,7 +7,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.API_PORT;
+const PORT = process.env.API_PORT || 3001;
+
+console.log('API_PORT:', process.env.API_PORT);
+console.log('AWS_ACCESS_KEY_ID:', process.env.AWS_ACCESS_KEY_ID);
+console.log('AWS_SECRET_ACCESS_KEY:', process.env.AWS_SECRET_ACCESS_KEY);
+console.log('AWS_REGION:', process.env.AWS_REGION);
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -111,4 +116,7 @@ app.use("/", (req, res) => {
   res.send("Server is running.")
 })
 
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 module.exports = app;
