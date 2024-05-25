@@ -13,7 +13,8 @@ function Article() {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/article/${encodeURIComponent(key)}`);
+        const baseURL = process.env.REACT_APP_API_BASE_URL;
+        const response = await axios.get(`{baseURL}/article/${encodeURIComponent(key)}`);
         setContent(response.data.content);
       } catch (error) {
         console.error('Error fetching article:', error);
