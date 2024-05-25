@@ -3,7 +3,6 @@ const AWS = require('aws-sdk');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-// Load environment variables from .env file
 dotenv.config();
 
 const app = express();
@@ -62,7 +61,6 @@ const listPublishedArticles = async () => {
 
 app.use(cors());
 
-// Add the new test endpoint
 app.get('/test', (req, res) => {
   res.send('API is running!');
 });

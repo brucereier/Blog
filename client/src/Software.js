@@ -19,7 +19,7 @@ const projects = [
     link: 'https://www.garmin.com/en-US/',
     description: 'Working on the subscriptions team building a Blazor application that allows authorized users to add Products and Plans to Garmin\'s internal system. Using SQL Server and terraform to and calling various internal APIs to collect and transfer data.',
   },{
-    image: '/luminary.png', // Update with actual image path
+    image: '/luminary.png',
     title: 'Luminary',
     link: 'https://appteamcarolina.com/#apps',
     description: 'Backend development on an iOS app designed to provide accessible navigation on college campuses. Writing a custom API to allow communication between the app and a PostgreSQL database containing geospatial data.',
@@ -48,7 +48,7 @@ function Software() {
         minHeight: '100vh',
         backgroundColor: '#f0f0f0',
         padding: 2,
-        paddingTop: 4, // Add some top padding
+        paddingTop: 4,
       }}
     >
       <Card
@@ -58,17 +58,17 @@ function Software() {
           alignItems: 'center',
           padding: 4,
           boxShadow: 3,
-          width: '100%', // Make the card full width
-          maxWidth: '1200px', // Add a maximum width for the card
+          width: '100%', 
+          maxWidth: '1200px', 
           marginBottom: 4,
         }}
       >
         <Avatar
           alt="Bruce Reier"
-          src="/bruce.jpeg" // Corrected path to the image
+          src="/bruce.jpeg" 
           sx={{
-            width: 300, // Increased size
-            height: 300, // Increased size
+            width: 300, 
+            height: 300, 
             margin: 2,
             boxShadow: 2,
           }}
@@ -79,7 +79,7 @@ function Software() {
             flexDirection: 'column',
             alignItems: { xs: 'center', md: 'flex-start' },
             textAlign: { xs: 'center', md: 'left' },
-            marginLeft: { md: 4 }, // Add some left margin for larger screens
+            marginLeft: { md: 4 }, 
           }}
         >
           <Typography variant="h4" component="div" gutterBottom>
@@ -89,7 +89,7 @@ function Software() {
             sx={{
               display: 'flex',
               justifyContent: { xs: 'center', md: 'flex-start' },
-              marginBottom: 2, // Increased margin bottom
+              marginBottom: 2, 
             }}
           >
             <IconButton
@@ -97,7 +97,7 @@ function Software() {
               href="https://www.linkedin.com/in/yourprofile"
               target="_blank"
               rel="noopener noreferrer"
-              sx={{ fontSize: 40 }} // Increased size
+              sx={{ fontSize: 40 }} 
             >
               <LinkedInIcon fontSize="inherit" />
             </IconButton>
@@ -106,14 +106,14 @@ function Software() {
               href="https://github.com/yourprofile"
               target="_blank"
               rel="noopener noreferrer"
-              sx={{ fontSize: 40 }} // Increased size
+              sx={{ fontSize: 40 }}
             >
               <GitHubIcon fontSize="inherit" />
             </IconButton>
             <IconButton
               aria-label="Email"
               href="mailto:your.email@example.com"
-              sx={{ fontSize: 40 }} // Increased size
+              sx={{ fontSize: 40 }} 
             >
               <EmailIcon fontSize="inherit" />
             </IconButton>
@@ -126,11 +126,11 @@ function Software() {
 
       <Card
         sx={{
-          width: '100%', // Make the card full width
-          maxWidth: '1200px', // Add a maximum width for the card
+          width: '100%', 
+          maxWidth: '1200px', 
           padding: 4,
           boxShadow: 3,
-          textAlign: 'center', // Center the header
+          textAlign: 'center', 
         }}
       >
         <Typography variant="h4" component="div" gutterBottom>

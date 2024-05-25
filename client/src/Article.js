@@ -19,7 +19,6 @@ function Article() {
         const response = await axios.get(`${baseURL}/article/${encodeURIComponent(key)}`);
         setContent(response.data.content);
 
-        // Extract date and title from the key
         const keyWithoutPrefix = key.replace('published/', '').replace('.md', '');
         const isImportant = keyWithoutPrefix.startsWith('I');
         const datePart = isImportant ? keyWithoutPrefix.substring(1, keyWithoutPrefix.indexOf(' ')) : keyWithoutPrefix.substring(0, keyWithoutPrefix.indexOf(' '));
