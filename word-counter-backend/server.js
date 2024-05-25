@@ -110,3 +110,5 @@ app.get('/article/:key', async (req, res) => {
 app.use("/", (req, res) => {
   res.send("Server is running.")
 })
+
+module.exports = app;
