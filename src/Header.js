@@ -17,9 +17,12 @@ function Header() {
       setLoading(true);
       const fetchWordCounts = async () => {
         try {
+          const baseURL = process.env.REACT_APP_API_BASE_URL;
+          const totalWordCountURL = baseURL + '/wordcount';
+          const publishedWordCountURL = baseURL + '/publishedwordcount';
           const [totalResponse, publishedResponse] = await Promise.all([
-            axios.get('http://localhost:3001/wordcount'),
-            axios.get('http://localhost:3001/publishedwordcount')
+            axios.get(totalWordCountURL),
+            axios.get(publishedWordCountURL)
           ]);
           setTotalWordCount(totalResponse.data.wordCount);
           setPublishedWordCount(publishedResponse.data.wordCount);

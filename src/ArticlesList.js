@@ -13,7 +13,9 @@ function ArticlesList() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/published-articles');
+        const baseURL = process.env.REACT_APP_API_BASE_URL
+        const PublishedArticlesURL = baseURL + '/published-articles';
+        const response = await axios.get(PublishedArticlesURL);
         setImportantArticles(response.data.importantArticles);
         setNonImportantArticles(response.data.nonImportantArticles);
       } catch (error) {
