@@ -34,7 +34,6 @@ const countWordsInS3 = async (bucket, prefix = '') => {
       const fileData = await getObject(bucket, file.Key);
       totalWordCount += fileData.split(/\s+/).filter(word => word.length > 0).length;
     } else if (file.Key.endsWith('/')) {
-      // If the key ends with '/', it's a folder, so we need to traverse it recursively
       totalWordCount += await countWordsInS3(bucket, file.Key);
     }
   }
@@ -62,7 +61,11 @@ const listPublishedArticles = async () => {
 
 app.use(cors());
 
-// Endpoint to get total word count from S3
+// Add the new test endpoint
+app.get('/test', (req, res) => {
+  res.send('API is running!');
+});
+
 app.get('/wordcount', async (req, res) => {
   try {
     const wordCount = await countWordsInS3(BUCKET_NAME);
@@ -73,7 +76,6 @@ app.get('/wordcount', async (req, res) => {
   }
 });
 
-// Endpoint to get published word count from S3
 app.get('/publishedwordcount', async (req, res) => {
   try {
     const wordCount = await countWordsInS3(BUCKET_NAME, PUBLISHED_FOLDER);
@@ -84,7 +86,6 @@ app.get('/publishedwordcount', async (req, res) => {
   }
 });
 
-// Endpoint to list published articles
 app.get('/published-articles', async (req, res) => {
   try {
     const { importantArticles, nonImportantArticles } = await listPublishedArticles();
@@ -95,7 +96,6 @@ app.get('/published-articles', async (req, res) => {
   }
 });
 
-// Endpoint to get an individual article
 app.get('/article/:key', async (req, res) => {
   try {
     const key = req.params.key;
