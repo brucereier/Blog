@@ -14,7 +14,7 @@ function Article() {
     const fetchArticle = async () => {
       try {
         const baseURL = process.env.REACT_APP_API_BASE_URL;
-        const response = await axios.get(`{baseURL}/article/${encodeURIComponent(key)}`);
+        const response = await axios.get(`${baseURL}/article/${encodeURIComponent(key)}`);
         setContent(response.data.content);
       } catch (error) {
         console.error('Error fetching article:', error);
