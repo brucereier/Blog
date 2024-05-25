@@ -15,9 +15,7 @@ function Writing() {
   }, []);
 
   return (
-    <div>
-      {message}
-    </div>
+    <ArticlesList/>
   );
 }
 
