@@ -59,7 +59,10 @@ const listPublishedArticles = async () => {
   return { importantArticles, nonImportantArticles };
 };
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.REACT_APP_API_BASE_URL,
+  credentials: true,
+}));
 
 // Add the new test endpoint
 app.get('/test', (req, res) => {
