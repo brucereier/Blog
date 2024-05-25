@@ -13,7 +13,7 @@ function Header() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (value === 'writing') {
+    if (value === "/writing") {
       setLoading(true);
       const fetchWordCounts = async () => {
         try {
@@ -82,9 +82,9 @@ function Header() {
           />
           <Tab
             label="Writing"
-            value="writing"
+            value="/writing"
             sx={{
-              color: value === 'writing' ? 'white' : 'inherit',
+              color: value === '/writing' ? 'white' : 'inherit',
               '&.Mui-selected': {
                 color: 'white',
               },
