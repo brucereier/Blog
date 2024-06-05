@@ -45,6 +45,16 @@ function Header() {
               },
             }}
           />
+          <Tab
+            label="Bookshelf"
+            value="/bookshelf"
+            sx={{
+              color: value === '/bookshelf' ? 'white' : 'inherit',
+              '&.Mui-selected': {
+                color: 'white',
+              },
+            }}
+          />
         </Tabs>
       </Toolbar>
     </AppBar>
