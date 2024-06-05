@@ -8,7 +8,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.API_PORT || 3001;
 
-
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -59,6 +58,25 @@ const listPublishedArticles = async () => {
   return { importantArticles, nonImportantArticles };
 };
 
+const listBookReviews = async () => {
+  const listParams = { Bucket: BUCKET_NAME, Prefix: PUBLISHED_FOLDER };
+  const files = await s3.listObjectsV2(listParams).promise();
+  
+  return files.Contents.filter(file => file.Key.endsWith('.md') && file.Key.includes('Book Review')).map(file => {
+    const key = file.Key;
+    const keyWithoutPrefix = key.replace(PUBLISHED_FOLDER, '').replace('.md', '');
+
+    const datePart = keyWithoutPrefix.substring(0, keyWithoutPrefix.indexOf(' '));
+
+    const reviewPart = keyWithoutPrefix.split('Book Review - ')[1];
+    const [title, author] = reviewPart.split(' - ').map(part => part.trim());
+    
+    return { key, date: datePart, title, author };
+  }).sort((a, b) => new Date(b.date) - new Date(a.date));
+};
+
+
+
 app.use(cors());
 
 app.get('/test', (req, res) => {
@@ -103,6 +121,16 @@ app.get('/article/:key', async (req, res) => {
   } catch (error) {
     console.error('Error fetching article:', error);
     res.status(500).json({ error: 'Error fetching article' });
+  }
+});
+
+app.get('/book-reviews', async (req, res) => {
+  try {
+    const bookReviews = await listBookReviews();
+    res.json({ bookReviews });
+  } catch (error) {
+    console.error('Error listing book reviews:', error);
+    res.status(500).json({ error: 'Error listing book reviews' });
   }
 });
 
