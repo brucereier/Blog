@@ -1,4 +1,3 @@
-// Bookshelf.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Typography, CircularProgress, IconButton, Paper, TextField } from '@mui/material';
@@ -22,7 +21,6 @@ const colorPairs = [
   { primary: '#778beb', secondary: '#000000' },
 ];
 
-// Hash function to get a consistent color pair for each book
 const getColorPair = (title) => {
   let hash = 0;
   for (let i = 0; i < title.length; i++) {
@@ -69,7 +67,7 @@ function Bookshelf() {
       review.author.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredBookReviews(filteredReviews);
-    setCurrentIndex(0); // Reset index to the beginning
+    setCurrentIndex(0);
   }, [searchQuery, bookReviews]);
 
   const getVisibleBooks = () => {
@@ -120,7 +118,7 @@ function Bookshelf() {
         <TextField
           label="Search Books"
           variant="outlined"
-          sx={{ width: 880 }} // Match the width to the bookshelf
+          sx={{ width: 880 }}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -141,12 +139,12 @@ function Bookshelf() {
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 padding: 2,
-                border: '3px solid #ccc', // Increase the border size
+                border: '3px solid #ccc', 
                 borderRadius: 1,
-                height: 500, // Height of the bookshelf
-                width: 880, // Width to fit exactly 8 books (each 100px wide with 10px margin)
-                justifyContent: 'center', // Center the bookshelf horizontally
-                padding: '20px', // Add padding to create more space around the spines
+                height: 500, 
+                width: 880, 
+                justifyContent: 'center', 
+                padding: '20px', 
               }}
             >
               {getVisibleBooks().map((review, index) => {
@@ -178,11 +176,11 @@ function Bookshelf() {
                   >
                     <Typography
                       sx={{
-                        fontSize: '2.4rem', // Increase font size
+                        fontSize: '2.4rem',
                         writingMode: 'vertical-rl',
                         textOrientation: 'mixed',
-                        fontFamily: 'Playfair Display, serif', // Change font to Playfair Display
-                        textTransform: 'uppercase', // Make the text all caps
+                        fontFamily: 'Playfair Display, serif', 
+                        textTransform: 'uppercase', 
                       }}
                     >
                       {review.title}

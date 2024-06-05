@@ -65,11 +65,9 @@ const listBookReviews = async () => {
   return files.Contents.filter(file => file.Key.endsWith('.md') && file.Key.includes('Book Review')).map(file => {
     const key = file.Key;
     const keyWithoutPrefix = key.replace(PUBLISHED_FOLDER, '').replace('.md', '');
-    
-    // Extract date
+
     const datePart = keyWithoutPrefix.substring(0, keyWithoutPrefix.indexOf(' '));
-    
-    // Extract the title and author
+
     const reviewPart = keyWithoutPrefix.split('Book Review - ')[1];
     const [title, author] = reviewPart.split(' - ').map(part => part.trim());
     

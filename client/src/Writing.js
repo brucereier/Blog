@@ -1,4 +1,3 @@
-// Writing.js
 import React, { useEffect, useState } from 'react';
 import { Box, Card, CardContent, Typography, Grid, CircularProgress } from '@mui/material';
 import ArticlesList from './ArticlesList';

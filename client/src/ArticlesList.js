@@ -1,4 +1,3 @@
-// ArticlesList.js
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
 

@@ -1,4 +1,3 @@
-// BookReviews.js
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, CircularProgress, Card, CardContent, Grid } from '@mui/material';
 
