@@ -12,6 +12,7 @@ function ProjectCard({ image, title, link, description }) {
         padding: 2,
         width: '100%',
         transition: 'transform 0.3s, box-shadow 0.3s',
+        backgroundColor: '#292828',
         '&:hover': {
           transform: 'scale(1.05)',
           boxShadow: 6,

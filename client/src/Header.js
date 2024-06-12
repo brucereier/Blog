@@ -13,7 +13,7 @@ function Header() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static"> {/* Change backgroundColor here */}
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Bruce Reier - Software Engineer
@@ -61,3 +61,4 @@ function Header() {
 }
 
 export default Header;
+
