@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function ArticlesList() {
   const [importantArticles, setImportantArticles] = useState([]);
   const [nonImportantArticles, setNonImportantArticles] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -21,6 +23,10 @@ function ArticlesList() {
     fetchArticles();
   }, []);
 
+  const handleCardClick = (key) => {
+    navigate(`/article/${encodeURIComponent(key)}`);
+  };
+
   return (
     <Box sx={{ marginTop: 4 }}>
       <Typography variant="h4" component="div" gutterBottom>
@@ -29,7 +35,17 @@ function ArticlesList() {
       <Grid container spacing={4}>
         {importantArticles.map((article, index) => (
           <Grid item xs={12} md={4} key={index}>
-            <Card>
+            <Card
+              onClick={() => handleCardClick(article.key)}
+              sx={{
+                cursor: 'pointer',
+                transition: 'transform 0.3s, box-shadow 0.3s',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: 6,
+                },
+              }}
+            >
               <CardContent>
                 <Typography variant="h6">{article.title}</Typography>
                 <Typography variant="body2">{article.date}</Typography>
@@ -45,7 +61,17 @@ function ArticlesList() {
       <Grid container spacing={4}>
         {nonImportantArticles.map((article, index) => (
           <Grid item xs={12} md={4} key={index}>
-            <Card>
+            <Card
+              onClick={() => handleCardClick(article.key)}
+              sx={{
+                cursor: 'pointer',
+                transition: 'transform 0.3s, box-shadow 0.3s',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: 6,
+                },
+              }}
+            >
               <CardContent>
                 <Typography variant="h6">{article.title}</Typography>
                 <Typography variant="body2">{article.date}</Typography>
