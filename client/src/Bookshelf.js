@@ -139,10 +139,9 @@ function Bookshelf() {
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 padding: 2,
-                border: '3px solid #ccc', 
                 borderRadius: 1,
                 height: 500, 
-                width: 880, 
+                width: 950, 
                 justifyContent: 'center', 
                 padding: '20px', 
               }}
@@ -154,7 +153,7 @@ function Bookshelf() {
                     key={index}
                     sx={{
                       display: 'inline-flex',
-                      width: 100,
+                      width: 110,
                       height: '100%',
                       backgroundColor: primary,
                       color: secondary,

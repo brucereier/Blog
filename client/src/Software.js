@@ -45,7 +45,6 @@ function Software() {
         flexDirection: 'column',
         alignItems: 'center',
         minHeight: '100vh',
-        backgroundColor: '#f0f0f0',
         padding: 2,
         paddingTop: 4,
       }}
