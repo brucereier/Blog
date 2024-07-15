@@ -35,6 +35,12 @@ const projects = [
     link: '',
     description: 'Developed portfolio with React to showcase software and writing projects. Over-engineered writing section to use Node.js server that links to my writing vault stored in an AWS S3 bucket to load new articles, allowing for website changes that do not require any modifications to the code.'
   },
+  {
+    image: '/conwaygif.gif',
+    title: 'Your Game of Life',
+    link: 'https://www.yourgameoflife.live/',
+    description: 'Created a variant of Conway\'s game of life that allows you to explore the endless possibilites of the game by creating your own custom rules regarding cell brith, life, and death.'
+  }
 ];
 
 function Software() {
