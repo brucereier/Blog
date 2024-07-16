@@ -30,9 +30,9 @@ const projects = [
     description: 'Researching the most efficient Machine Learning pipeline for classifying whether or not stained WSIs contain melanoma. Implementing various CNNs as feature extractors and quantifying their performance with 5-fold cross validation.'
   },
   {
-    image: '/react.svg',
+    image: '/bruce.jpeg',
     title: 'Personal Portfolio',
-    link: '',
+    link: 'https://www.brucereier.dev',
     description: 'Developed portfolio with React to showcase software and writing projects. Over-engineered writing section to use Node.js server that links to my writing vault stored in an AWS S3 bucket to load new articles, allowing for website changes that do not require any modifications to the code.'
   },
   {
