@@ -98,7 +98,7 @@ function Software() {
           >
             <IconButton
               aria-label="LinkedIn"
-              href="https://www.linkedin.com/in/yourprofile"
+              href="https://www.linkedin.com/in/brucereier"
               target="_blank"
               rel="noopener noreferrer"
               sx={{ fontSize: 40 }} 
@@ -107,7 +107,7 @@ function Software() {
             </IconButton>
             <IconButton
               aria-label="GitHub"
-              href="https://github.com/yourprofile"
+              href="https://github.com/brucereier"
               target="_blank"
               rel="noopener noreferrer"
               sx={{ fontSize: 40 }}
@@ -116,7 +116,7 @@ function Software() {
             </IconButton>
             <IconButton
               aria-label="Email"
-              href="mailto:your.email@example.com"
+              href="mailto:bpreier@unc.edu"
               sx={{ fontSize: 40 }} 
             >
               <EmailIcon fontSize="inherit" />
