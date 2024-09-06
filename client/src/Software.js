@@ -16,7 +16,7 @@ const projects = [
     image: '/garmin.jpeg',
     title: 'Garmin SWE Intern',
     link: 'https://www.garmin.com/en-US/',
-    description: 'Working on the subscriptions team building a Blazor application that allows authorized users to add Products and Plans to Garmin\'s internal system. Using SQL Server and terraform to and calling various internal APIs to collect and transfer data.',
+    description: 'Worked on the subscriptions team building a Blazor application that allows authorized users to add Products and Plans to Garmin\'s internal system. Using SQL Server and terraform to and calling various internal APIs to collect and transfer data.',
   },{
     image: '/luminary.png',
     title: 'Luminary',
@@ -33,13 +33,13 @@ const projects = [
     image: '/bruce.jpeg',
     title: 'Personal Portfolio',
     link: 'https://www.brucereier.dev',
-    description: 'Developed portfolio with React to showcase software and writing projects. Over-engineered writing section to use Node.js server that links to my writing vault stored in an AWS S3 bucket to load new articles, allowing for website changes that do not require any modifications to the code.'
+    description: 'Developed portfolio with React to showcase software and writing projects. Over-engineered writing section to use Node.js server that links to my writing vault stored in an AWS S3 bucket to load new articles, allowing for website changes that do not require any code modifications.'
   },
   {
     image: '/conwaygif.gif',
     title: 'Your Game of Life',
     link: 'https://www.yourgameoflife.live/',
-    description: 'Created a variant of Conway\'s game of life that allows you to explore the endless possibilites of the game by creating your own custom rules regarding cell brith, life, and death.'
+    description: 'Created a variant of Conway\'s game of life that allows you to explore the endless possibilites of the game by creating your own custom rules regarding cell birth, life, and death.'
   }
 ];
 
