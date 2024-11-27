@@ -36,10 +36,10 @@ const projects = [
     description: 'Developed portfolio with React to showcase software and writing projects. Over-engineered writing section to use Node.js server that links to my writing vault stored in an AWS S3 bucket to load new articles, allowing for website changes that do not require any code modifications.'
   },
   {
-    image: '/conwaygif.gif',
-    title: 'Your Game of Life',
-    link: 'https://www.yourgameoflife.live/',
-    description: 'Created a variant of Conway\'s game of life that allows you to explore the endless possibilites of the game by creating your own custom rules regarding cell birth, life, and death.'
+    image: '/astraloq.png',
+    title: 'Astraloq',
+    link: 'https://github.com/brucereier/hacknc2024',
+    description: 'Created a web application to allow amatuer astronomers to see events near them and to connect with fellow hobbyists. Made for HackNC 2024.'
   }
 ];
 
