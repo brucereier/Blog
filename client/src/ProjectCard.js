@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardMedia, Typography} from '@mui/material';
 
-function ProjectCard({ image, title, link, description }) {
+function ProjectCard({ image, title, link, description, tools}) {
   return (
     <Card
       sx={{

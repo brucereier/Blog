@@ -10,36 +10,43 @@ const projects = [
     image: '/classmate.jpeg',
     title: 'classmate',
     link: 'https://classmate.lol',
-    description: 'Building a website to make course registration easier for college students through a social network and advanced course filters. Using React for the front-end and a firestore database with 100k+ documents to manage relations between users and to store data.',
+    description:'Building a website that makes course registration easier for college students by providing advanced course filtering and allowing students to connect with their friends.',
+    tools: ['react', 'firestore', 'python']
   },
   {
     image: '/garmin.jpeg',
     title: 'Garmin SWE Intern',
     link: 'https://www.garmin.com/en-US/',
-    description: 'Worked on the subscriptions team building a Blazor application that allows authorized users to add Products and Plans to Garmin\'s internal system. Using SQL Server and terraform to and calling various internal APIs to collect and transfer data.',
-  },{
+    description:'Built a web application to facilitate the creation, approval, and deployment of subscription plans into Garmin\'s system.',
+    tools: ['blazor', 'c#', 'sqlserver']
+  },
+  {
     image: '/luminary.png',
     title: 'Luminary',
     link: 'https://appteamcarolina.com/#apps',
-    description: 'Backend development on an iOS app designed to provide accessible navigation on college campuses. Writing a custom API to allow communication between the app and a PostgreSQL database containing geospatial data.',
+    description: 'Backend development on an iOS app providing accessible navigation on college campuses.',
+    tools: ['express.js', 'node.js', 'postgresql']
   },
   {
     image: '/research.jpeg',
     title: 'Undergraduate AI Research',
     link: 'https://tarheels.live/compressivenetworks/andrew-bruce-research-project/',
-    description: 'Researching the most efficient Machine Learning pipeline for classifying whether or not stained WSIs contain melanoma. Implementing various CNNs as feature extractors and quantifying their performance with 5-fold cross validation.'
+    description: 'Researching the most efficient Machine Learning pipeline for classifying whether or not stained WSIs are melanocytic or not. Mainly focusing on CNNs for feature extraction.',
+    tools: ['python', 'tensorflow']
   },
   {
     image: '/bruce.jpeg',
     title: 'Personal Portfolio',
     link: 'https://www.brucereier.dev',
-    description: 'Developed portfolio with React to showcase software and writing projects. Over-engineered writing section to use Node.js server that links to my writing vault stored in an AWS S3 bucket to load new articles, allowing for website changes that do not require any code modifications.'
+    description: 'Developed a personal portfolio to display software projects/experiences and writing projects.',
+    tools: ['react', 'express.js', 'node.js', 'aws']
   },
   {
     image: '/astraloq.png',
     title: 'Astraloq',
     link: 'https://github.com/brucereier/hacknc2024',
-    description: 'Created a web application to allow amatuer astronomers to see events near them and to connect with fellow hobbyists. Made for HackNC 2024.'
+    description: 'Created a web application to allow amatuer astronomers to see events near them and to connect with fellow hobbyists. Made for HackNC 2024.',
+    tools: ['react', 'fastapi', 'postgresql']
   }
 ];
 
@@ -148,6 +155,7 @@ function Software() {
                 title={project.title}
                 link={project.link}
                 description={project.description}
+                tools = {project.tools}
               />
             </Grid>
           ))}
