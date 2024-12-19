@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography} from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Box } from '@mui/material';
 
-function ProjectCard({ image, title, link, description, tools}) {
+function ProjectCard({ image, title, link, description, tools }) {
   return (
     <Card
       sx={{
@@ -46,6 +46,39 @@ function ProjectCard({ image, title, link, description, tools}) {
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: 1,
+            marginTop: 2,
+          }}
+        >
+          {tools.map((tool) => {
+            const iconName = tool.replace(/\./g, '-').replace(/#/g, '%23') + '.png';
+            const iconPath = `/icons/${iconName}`;
+            return (
+              <Box
+                key={tool}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  width: 35,
+                  height: 35,
+                }}
+              >
+                <img
+                  src={iconPath}
+                  alt={tool}
+                  style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
+                />
+              </Box>
+            );
+          })}
+        </Box>
       </CardContent>
     </Card>
   );

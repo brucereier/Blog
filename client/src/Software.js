@@ -5,53 +5,56 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import EmailIcon from '@mui/icons-material/Email';
 import ProjectCard from './ProjectCard';
 
+
+const tools = ['React', 'Firestore', 'Python', 'Blazor', 'C#', 'SQL Server', 'Express.js', 'Node.js', 'PostgreSQL', 'TensorFlow', 'FastAPI'];
 const projects = [
     {
         image: '/metabob.gif',
         title: 'Meta SWE Intern',
-        description: 'Incoming Summer 2025'
+        description: 'Incoming Summer 2025',
+        tools: []
     },
     {
         image: '/classmate.jpeg',
         title: 'classmate',
         link: 'https://classmate.lol',
-        description:'Building a website that makes course registration easier for college students by providing advanced course filtering and allowing students to connect with their friends.',
-        tools: ['react', 'firestore', 'python']
+        description: 'Building a website that makes course registration easier for college students by providing advanced course filtering and allowing students to connect with their friends.',
+        tools: ['React', 'Firestore', 'Python']
     },
     {
         image: '/garmin.jpeg',
         title: 'Garmin SWE Intern',
         link: 'https://www.garmin.com/en-US/',
-        description:'Built a web application to facilitate the creation, approval, and deployment of subscription plans into Garmin\'s system.',
-        tools: ['blazor', 'c#', 'sqlserver']
+        description: 'Built a web application to facilitate the creation, approval, and deployment of subscription plans into Garmin\'s system.',
+        tools: ['Blazor', 'C#', 'SQL Server']
     },
     {
         image: '/luminary.png',
         title: 'Luminary',
         link: 'https://appteamcarolina.com/#apps',
         description: 'Backend development on an iOS app providing accessible navigation on college campuses.',
-        tools: ['express.js', 'node.js', 'postgresql']
+        tools: ['Express.js', 'Node.js', 'PostgreSQL']
     },
     {
         image: '/research.jpeg',
         title: 'Undergraduate AI Research',
         link: 'https://tarheels.live/compressivenetworks/andrew-bruce-research-project/',
         description: 'Researching the most efficient Machine Learning pipeline for classifying whether or not stained WSIs are melanocytic or not. Mainly focusing on CNNs for feature extraction.',
-        tools: ['python', 'tensorflow']
+        tools: ['Python', 'TensorFlow']
     },
     {
         image: '/bruce.jpeg',
         title: 'Personal Portfolio',
         link: 'https://www.brucereier.dev',
         description: 'Developed a personal portfolio to display software projects/experiences and writing projects.',
-        tools: ['react', 'express.js', 'node.js', 'aws']
+        tools: ['React', 'Express.js', 'Node.js']
     },
     {
         image: '/astraloq.png',
         title: 'Astraloq',
         link: 'https://github.com/brucereier/hacknc2024',
         description: 'Created a web application to allow amatuer astronomers to see events near them and to connect with fellow hobbyists. Made for HackNC 2024.',
-        tools: ['react', 'fastapi', 'postgresql']
+        tools: ['React', 'FastAPI', 'PostgreSQL']
     }
 ];
 
@@ -74,17 +77,17 @@ function Software() {
                     alignItems: 'center',
                     padding: 4,
                     boxShadow: 3,
-                    width: '100%', 
-                    maxWidth: '1200px', 
+                    width: '100%',
+                    maxWidth: '1200px',
                     marginBottom: 4,
                 }}
             >
                 <Avatar
                     alt="Bruce Reier"
-                    src="/bruce.jpeg" 
+                    src="/bruce.jpeg"
                     sx={{
-                        width: 300, 
-                        height: 300, 
+                        width: 300,
+                        height: 300,
                         margin: 2,
                         boxShadow: 2,
                     }}
@@ -95,7 +98,7 @@ function Software() {
                         flexDirection: 'column',
                         alignItems: { xs: 'center', md: 'flex-start' },
                         textAlign: { xs: 'center', md: 'left' },
-                        marginLeft: { md: 4 }, 
+                        marginLeft: { md: 4 },
                     }}
                 >
                     <Typography variant="h4" component="div" gutterBottom>
@@ -105,7 +108,7 @@ function Software() {
                         sx={{
                             display: 'flex',
                             justifyContent: { xs: 'center', md: 'flex-start' },
-                            marginBottom: 2, 
+                            marginBottom: 2,
                         }}
                     >
                         <IconButton
@@ -113,7 +116,7 @@ function Software() {
                             href="https://www.linkedin.com/in/brucereier"
                             target="_blank"
                             rel="noopener noreferrer"
-                            sx={{ fontSize: 40 }} 
+                            sx={{ fontSize: 40 }}
                         >
                             <LinkedInIcon fontSize="inherit" />
                         </IconButton>
@@ -129,24 +132,70 @@ function Software() {
                         <IconButton
                             aria-label="Email"
                             href="mailto:bpreier@unc.edu"
-                            sx={{ fontSize: 40 }} 
+                            sx={{ fontSize: 40 }}
                         >
                             <EmailIcon fontSize="inherit" />
                         </IconButton>
                     </Box>
                     <Typography variant="body1" sx={{ fontSize: '1.2rem' }}>
-                        Hey! I'm Bruce, a rising junior at UNC Chapel Hill double majoring in Computer Science and Mathematics with a minor in Data Science. I'm pursuing a career in Software Engineering and have experience in full stack development through my role at classmate and my previous summer internship at Garmin. This upcoming summer I will be at Meta HQ in Menlo Park working as a SWE intern. I also have an interest in Computer Science research, specifically how Artificial Intelligence can be leveraged to solve problems previously thought to be outside of the scope of Computer Science. When I'm not developing, I'm likely reading/writing, at the gym, or watching the Chicago Bears/Cubs. Feel free to connect with me or check out my projects through the links throughout this site!
+                        Hey! I'm Bruce, a Software Developer studying Computer Science and Math at UNC Chapel Hill. I'll be interning at Meta in Menlo Park this upcoming summer. I'm interested in all things tech, but specifically full stack development. You can check out some of my projects/experience below. Outside of developing I enjoy weightlifting, reading/writing, and watching the Chicago Bears/Cubs. Feel free to connect with me or reach out to me to chat!
                     </Typography>
                 </CardContent>
             </Card>
-
             <Card
                 sx={{
-                    width: '100%', 
-                    maxWidth: '1200px', 
+                    width: '100%',
+                    maxWidth: '1200px',
                     padding: 4,
                     boxShadow: 3,
-                    textAlign: 'center', 
+                    textAlign: 'center',
+                    marginBottom: 4,
+                }}
+            >
+                <Typography variant="h4" component="div" gutterBottom>
+                    Skills
+                </Typography>
+                <Grid container spacing={2} justifyContent="center">
+                    {tools.map((tool) => {
+                        const iconName = tool.replace(/\./g, '-').replace(/#/g, '%23') + '.png';
+                        const iconPath = `/icons/${iconName}`;
+                        return (
+                            <Grid
+                                item
+                                key={tool}
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: 0.5, // Reduced gap to bring icon and text closer
+                                    width: 'auto',
+                                }}
+                            >
+                                <img
+                                    src={iconPath}
+                                    alt={tool}
+                                    style={{
+                                        width: 45,
+                                        height: 45,
+                                        objectFit: 'contain',
+                                    }}
+                                />
+                                <Typography variant="body1" color="text.primary" sx={{ marginLeft: 0.5 }}>
+                                    {tool}
+                                </Typography>
+                            </Grid>
+                        );
+                    })}
+                </Grid>
+            </Card>
+            <Card
+                sx={{
+                    width: '100%',
+                    maxWidth: '1200px',
+                    padding: 4,
+                    boxShadow: 3,
+                    textAlign: 'center',
                 }}
             >
                 <Typography variant="h4" component="div" gutterBottom>
@@ -160,7 +209,7 @@ function Software() {
                                 title={project.title}
                                 link={project.link}
                                 description={project.description}
-                                tools = {project.tools}
+                                tools={project.tools}
                             />
                         </Grid>
                     ))}
