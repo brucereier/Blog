@@ -4,32 +4,40 @@ import ArticlesList from './ArticlesList';
 import BookReviews from './BookReviews';
 
 function Writing() {
-  const [totalWordCount, setTotalWordCount] = useState(0);
-  const [publishedWordCount, setPublishedWordCount] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [totalData, setTotalData] = useState({ wordCount: 0, isLoading: true });
+  const [publishedData, setPublishedData] = useState({ wordCount: 0, isLoading: true });
 
   useEffect(() => {
-    setLoading(true);
+    let pollingId;
+
     const fetchWordCounts = async () => {
       try {
         const baseURL = process.env.REACT_APP_API_BASE_URL;
-        const totalWordCountURL = baseURL + '/wordcount';
-        const publishedWordCountURL = baseURL + '/publishedwordcount';
         const [totalResponse, publishedResponse] = await Promise.all([
-          fetch(totalWordCountURL).then(res => res.json()),
-          fetch(publishedWordCountURL).then(res => res.json())
+          fetch(`${baseURL}/wordcount`).then(res => res.json()),
+          fetch(`${baseURL}/publishedwordcount`).then(res => res.json())
         ]);
-        setTotalWordCount(totalResponse.wordCount);
-        setPublishedWordCount(publishedResponse.wordCount);
+
+        setTotalData(totalResponse);
+        setPublishedData(publishedResponse);
+
+        // Poll again if either endpoint is still loading
+        if (totalResponse.isLoading || publishedResponse.isLoading) {
+          pollingId = setTimeout(fetchWordCounts, 5000);
+        }
       } catch (error) {
         console.error('Error fetching word counts:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchWordCounts();
+
+    // Cleanup any remaining timers on unmount
+    return () => {
+      if (pollingId) clearTimeout(pollingId);
+    };
   }, []);
+  const overallLoading = totalData.isLoading || publishedData.isLoading;
 
   return (
     <Box sx={{ padding: 4 }}>
@@ -37,7 +45,7 @@ function Writing() {
         <Grid item xs={12} md={6}>
           <Card sx={{ padding: 2, textAlign: 'center' }}>
             <CardContent>
-              {loading ? (
+              {overallLoading ? (
                 <CircularProgress color="inherit" size={24} />
               ) : (
                 <>
@@ -45,7 +53,7 @@ function Writing() {
                     Vaulted Word Count
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    {totalWordCount}
+                    {totalData.wordCount}
                   </Typography>
                 </>
               )}
@@ -55,7 +63,7 @@ function Writing() {
         <Grid item xs={12} md={6}>
           <Card sx={{ padding: 2, textAlign: 'center' }}>
             <CardContent>
-              {loading ? (
+              {overallLoading ? (
                 <CircularProgress color="inherit" size={24} />
               ) : (
                 <>
@@ -63,7 +71,7 @@ function Writing() {
                     Published Word Count
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    {publishedWordCount}
+                    {publishedData.wordCount}
                   </Typography>
                 </>
               )}
@@ -78,4 +86,3 @@ function Writing() {
 }
 
 export default Writing;
-

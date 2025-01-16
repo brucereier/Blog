@@ -2,6 +2,7 @@ const express = require('express');
 const AWS = require('aws-sdk');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const cron = require('node-cron');
 
 dotenv.config();
 
@@ -16,6 +17,12 @@ const s3 = new AWS.S3({
 
 const BUCKET_NAME = process.env.BUCKET_NAME;
 const PUBLISHED_FOLDER = 'published/';
+
+
+// Caches for word count
+let dailyWordCountCache = 0;
+let dailyPublishedWordCountCache = 0;
+let isWordCountsLoading = true;
 
 const getObject = async (bucket, key) => {
   const params = { Bucket: bucket, Key: key };
@@ -40,6 +47,20 @@ const countWordsInS3 = async (bucket, prefix = '') => {
   return totalWordCount;
 };
 
+const updateWordCounts = async () => {
+  isWordCountsLoading = true;
+  dailyWordCountCache = await countWordsInS3(BUCKET_NAME);
+  dailyPublishedWordCountCache = await countWordsInS3(BUCKET_NAME, PUBLISHED_FOLDER);
+  isWordCountsLoading = false;
+};
+
+// Cron job scheduled to update word counts every midnight
+cron.schedule('0 0 * * *', async () => {
+  await updateWordCounts();
+});
+
+updateWordCounts();
+
 const listPublishedArticles = async () => {
   const listParams = { Bucket: BUCKET_NAME, Prefix: PUBLISHED_FOLDER };
   const files = await s3.listObjectsV2(listParams).promise();
@@ -51,7 +72,7 @@ const listPublishedArticles = async () => {
     const title = keyWithoutPrefix.substring(keyWithoutPrefix.indexOf(' ') + 1);
     return { key, date: datePart, title, isImportant };
   }).sort((a, b) => new Date(b.date) - new Date(a.date));
-  
+
   const importantArticles = articles.filter(article => article.isImportant);
   const nonImportantArticles = articles.filter(article => !article.isImportant);
 
@@ -61,7 +82,7 @@ const listPublishedArticles = async () => {
 const listBookReviews = async () => {
   const listParams = { Bucket: BUCKET_NAME, Prefix: PUBLISHED_FOLDER };
   const files = await s3.listObjectsV2(listParams).promise();
-  
+
   return files.Contents.filter(file => file.Key.endsWith('.md') && file.Key.includes('Book Review')).map(file => {
     const key = file.Key;
     const keyWithoutPrefix = key.replace(PUBLISHED_FOLDER, '').replace('.md', '');
@@ -70,7 +91,7 @@ const listBookReviews = async () => {
 
     const reviewPart = keyWithoutPrefix.split('Book Review - ')[1];
     const [title, author] = reviewPart.split(' - ').map(part => part.trim());
-    
+
     return { key, date: datePart, title, author };
   }).sort((a, b) => new Date(b.date) - new Date(a.date));
 };
@@ -83,24 +104,12 @@ app.get('/test', (req, res) => {
   res.send('API is running!');
 });
 
-app.get('/wordcount', async (req, res) => {
-  try {
-    const wordCount = await countWordsInS3(BUCKET_NAME);
-    res.json({ wordCount });
-  } catch (error) {
-    console.error('Error fetching word count:', error);
-    res.status(500).json({ error: 'Error fetching word count' });
-  }
+app.get('/wordcount', (req, res) => {
+  res.json({ wordCount: dailyWordCountCache, isLoading: isWordCountsLoading });
 });
 
-app.get('/publishedwordcount', async (req, res) => {
-  try {
-    const wordCount = await countWordsInS3(BUCKET_NAME, PUBLISHED_FOLDER);
-    res.json({ wordCount });
-  } catch (error) {
-    console.error('Error fetching published word count:', error);
-    res.status(500).json({ error: 'Error fetching published word count' });
-  }
+app.get('/publishedwordcount', (req, res) => {
+  res.json({ wordCount: dailyPublishedWordCountCache, isLoading: isWordCountsLoading });
 });
 
 app.get('/published-articles', async (req, res) => {
