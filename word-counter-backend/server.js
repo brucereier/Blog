@@ -51,7 +51,7 @@ const listPublishedArticles = async () => {
     const title = keyWithoutPrefix.substring(keyWithoutPrefix.indexOf(' ') + 1);
     return { key, date: datePart, title, isImportant };
   }).sort((a, b) => new Date(b.date) - new Date(a.date));
-  
+
   const importantArticles = articles.filter(article => article.isImportant);
   const nonImportantArticles = articles.filter(article => !article.isImportant);
 
@@ -61,7 +61,7 @@ const listPublishedArticles = async () => {
 const listBookReviews = async () => {
   const listParams = { Bucket: BUCKET_NAME, Prefix: PUBLISHED_FOLDER };
   const files = await s3.listObjectsV2(listParams).promise();
-  
+
   return files.Contents.filter(file => file.Key.endsWith('.md') && file.Key.includes('Book Review')).map(file => {
     const key = file.Key;
     const keyWithoutPrefix = key.replace(PUBLISHED_FOLDER, '').replace('.md', '');
@@ -70,7 +70,7 @@ const listBookReviews = async () => {
 
     const reviewPart = keyWithoutPrefix.split('Book Review - ')[1];
     const [title, author] = reviewPart.split(' - ').map(part => part.trim());
-    
+
     return { key, date: datePart, title, author };
   }).sort((a, b) => new Date(b.date) - new Date(a.date));
 };

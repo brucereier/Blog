@@ -140,10 +140,10 @@ function Bookshelf() {
                 whiteSpace: 'nowrap',
                 padding: 2,
                 borderRadius: 1,
-                height: 500, 
-                width: 950, 
-                justifyContent: 'center', 
-                padding: '20px', 
+                height: 500,
+                width: 950,
+                justifyContent: 'center',
+                padding: '20px',
               }}
             >
               {getVisibleBooks().map((review, index) => {
@@ -178,8 +178,8 @@ function Bookshelf() {
                         fontSize: '2.4rem',
                         writingMode: 'vertical-rl',
                         textOrientation: 'mixed',
-                        fontFamily: 'Playfair Display, serif', 
-                        textTransform: 'uppercase', 
+                        fontFamily: 'Playfair Display, serif',
+                        textTransform: 'uppercase',
                       }}
                     >
                       {review.title}
