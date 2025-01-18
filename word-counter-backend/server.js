@@ -83,9 +83,13 @@ app.get('/test', (req, res) => {
   res.send('API is running!');
 });
 
+// Endpoint for total word count with Vercel caching
 app.get('/wordcount', async (req, res) => {
   try {
     const wordCount = await countWordsInS3(BUCKET_NAME);
+
+    // Cache for 24 hours on Vercel's edge
+    res.set('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate=59');
     res.json({ wordCount });
   } catch (error) {
     console.error('Error fetching word count:', error);
@@ -96,6 +100,9 @@ app.get('/wordcount', async (req, res) => {
 app.get('/publishedwordcount', async (req, res) => {
   try {
     const wordCount = await countWordsInS3(BUCKET_NAME, PUBLISHED_FOLDER);
+
+    // Cache for 24 hours on Vercel's edge
+    res.set('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate=59');
     res.json({ wordCount });
   } catch (error) {
     console.error('Error fetching published word count:', error);

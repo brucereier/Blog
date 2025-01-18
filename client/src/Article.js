@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Typography, Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from "remark-gfm";
 
 function Article() {
   const { key } = useParams();
@@ -22,7 +23,7 @@ function Article() {
         const isImportant = keyWithoutPrefix.startsWith('I');
         const datePart = isImportant ? keyWithoutPrefix.substring(1, keyWithoutPrefix.indexOf(' ')) : keyWithoutPrefix.substring(0, keyWithoutPrefix.indexOf(' '));
         const titlePart = keyWithoutPrefix.substring(keyWithoutPrefix.indexOf(' ') + 1);
-        
+
         setDate(datePart);
         setTitle(titlePart);
       } catch (error) {
@@ -47,7 +48,7 @@ function Article() {
           <Typography variant="h5" align="center" gutterBottom>
             {date}
           </Typography>
-          <ReactMarkdown>{content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
         </>
       )}
     </Box>
