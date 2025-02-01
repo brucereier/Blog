@@ -20,7 +20,6 @@ function BookReviews() {
         setLoading(false);
       }
     };
-
     fetchBookReviews();
   }, []);
 
@@ -30,7 +29,7 @@ function BookReviews() {
 
   return (
     <Box sx={{ marginTop: 4 }}>
-      <Typography variant="h4" component="div" gutterBottom>
+      <Typography variant="h4" gutterBottom>
         Book Reviews
       </Typography>
       {loading ? (
@@ -39,8 +38,8 @@ function BookReviews() {
         </Box>
       ) : (
         <Grid container spacing={4}>
-          {bookReviews.map((review, index) => (
-            <Grid item xs={12} md={4} key={index}>
+          {bookReviews.map((review) => (
+            <Grid item xs={12} md={4} key={review.key}>
               <Card
                 onClick={() => handleCardClick(review.key)}
                 sx={{
@@ -53,8 +52,11 @@ function BookReviews() {
                 }}
               >
                 <CardContent>
-                  <Typography variant="h6">{review.title} by {review.author}</Typography>
+                  <Typography variant="h6">
+                    {review.title} by {review.author}
+                  </Typography>
                   <Typography variant="body2">{review.date}</Typography>
+                  <Typography variant="body2">Read Count: {review.readCount}</Typography>
                 </CardContent>
               </Card>
             </Grid>

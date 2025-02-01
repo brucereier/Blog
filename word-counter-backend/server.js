@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
+const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const PORT = process.env.API_PORT || 3001;
 
 const s3 = new AWS.S3({
@@ -16,6 +17,33 @@ const s3 = new AWS.S3({
 
 const BUCKET_NAME = process.env.BUCKET_NAME;
 const PUBLISHED_FOLDER = 'published/';
+
+const incrementReadCount = async (key) => {
+  const params = {
+    TableName: 'ArticleReadCounts',
+    Key: { articleKey: key },
+    UpdateExpression: 'SET readCount = if_not_exists(readCount, :start) + :inc',
+    ExpressionAttributeValues: {
+      ':start': 0,
+      ':inc': 1,
+    },
+    ReturnValues: 'UPDATED_NEW',
+  };
+  const result = await dynamoDB.update(params).promise();
+  return result.Attributes.readCount;
+};
+
+const getReadCounts = async (keys) => {
+  const params = {
+    RequestItems: {
+      ArticleReadCounts: {
+        Keys: keys.map(key => ({ articleKey: key })),
+      },
+    },
+  };
+  const result = await dynamoDB.batchGet(params).promise();
+  return result.Responses.ArticleReadCounts;
+};
 
 const getObject = async (bucket, key) => {
   const params = { Bucket: bucket, Key: key };
@@ -47,7 +75,9 @@ const listPublishedArticles = async () => {
     const key = file.Key;
     const keyWithoutPrefix = key.replace(PUBLISHED_FOLDER, '').replace('.md', '');
     const isImportant = keyWithoutPrefix.startsWith('I');
-    const datePart = isImportant ? keyWithoutPrefix.substring(1, keyWithoutPrefix.indexOf(' ')) : keyWithoutPrefix.substring(0, keyWithoutPrefix.indexOf(' '));
+    const datePart = isImportant
+      ? keyWithoutPrefix.substring(1, keyWithoutPrefix.indexOf(' '))
+      : keyWithoutPrefix.substring(0, keyWithoutPrefix.indexOf(' '));
     const title = keyWithoutPrefix.substring(keyWithoutPrefix.indexOf(' ') + 1);
     return { key, date: datePart, title, isImportant };
   }).sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -65,17 +95,12 @@ const listBookReviews = async () => {
   return files.Contents.filter(file => file.Key.endsWith('.md') && file.Key.includes('Book Review')).map(file => {
     const key = file.Key;
     const keyWithoutPrefix = key.replace(PUBLISHED_FOLDER, '').replace('.md', '');
-
     const datePart = keyWithoutPrefix.substring(0, keyWithoutPrefix.indexOf(' '));
-
     const reviewPart = keyWithoutPrefix.split('Book Review - ')[1];
     const [title, author] = reviewPart.split(' - ').map(part => part.trim());
-
     return { key, date: datePart, title, author };
   }).sort((a, b) => new Date(b.date) - new Date(a.date));
 };
-
-
 
 app.use(cors());
 
@@ -83,12 +108,9 @@ app.get('/test', (req, res) => {
   res.send('API is running!');
 });
 
-// Endpoint for total word count with Vercel caching
 app.get('/wordcount', async (req, res) => {
   try {
     const wordCount = await countWordsInS3(BUCKET_NAME);
-
-    // Cache for 24 hours on Vercel's edge
     res.set('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate=59');
     res.json({ wordCount });
   } catch (error) {
@@ -100,8 +122,6 @@ app.get('/wordcount', async (req, res) => {
 app.get('/publishedwordcount', async (req, res) => {
   try {
     const wordCount = await countWordsInS3(BUCKET_NAME, PUBLISHED_FOLDER);
-
-    // Cache for 24 hours on Vercel's edge
     res.set('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate=59');
     res.json({ wordCount });
   } catch (error) {
@@ -113,7 +133,23 @@ app.get('/publishedwordcount', async (req, res) => {
 app.get('/published-articles', async (req, res) => {
   try {
     const { importantArticles, nonImportantArticles } = await listPublishedArticles();
-    res.json({ importantArticles, nonImportantArticles });
+    const allArticles = [...importantArticles, ...nonImportantArticles];
+    const articleKeys = allArticles.map(article => article.key);
+    const readCounts = await getReadCounts(articleKeys);
+    const readCountMap = readCounts.reduce((map, item) => {
+      map[item.articleKey] = item.readCount || 0;
+      return map;
+    }, {});
+
+    const addReadCounts = (articles) => articles.map(article => ({
+      ...article,
+      readCount: readCountMap[article.key] || 0,
+    }));
+
+    res.json({
+      importantArticles: addReadCounts(importantArticles),
+      nonImportantArticles: addReadCounts(nonImportantArticles),
+    });
   } catch (error) {
     console.error('Error listing published articles:', error);
     res.status(500).json({ error: 'Error listing published articles' });
@@ -124,7 +160,8 @@ app.get('/article/:key', async (req, res) => {
   try {
     const key = req.params.key;
     const articleContent = await getObject(BUCKET_NAME, key);
-    res.json({ content: articleContent });
+    const readCount = await incrementReadCount(key);
+    res.json({ content: articleContent, readCount });
   } catch (error) {
     console.error('Error fetching article:', error);
     res.status(500).json({ error: 'Error fetching article' });
@@ -134,7 +171,19 @@ app.get('/article/:key', async (req, res) => {
 app.get('/book-reviews', async (req, res) => {
   try {
     const bookReviews = await listBookReviews();
-    res.json({ bookReviews });
+    const articleKeys = bookReviews.map(review => review.key);
+    const readCounts = await getReadCounts(articleKeys);
+    const readCountMap = readCounts.reduce((map, item) => {
+      map[item.articleKey] = item.readCount || 0;
+      return map;
+    }, {});
+
+    const reviewsWithReadCounts = bookReviews.map(review => ({
+      ...review,
+      readCount: readCountMap[review.key] || 0,
+    }));
+
+    res.json({ bookReviews: reviewsWithReadCounts });
   } catch (error) {
     console.error('Error listing book reviews:', error);
     res.status(500).json({ error: 'Error listing book reviews' });
@@ -143,9 +192,10 @@ app.get('/book-reviews', async (req, res) => {
 
 app.use("/", (req, res) => {
   res.send("Server is running.")
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
 module.exports = app;
