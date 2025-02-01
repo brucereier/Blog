@@ -135,7 +135,12 @@ app.get('/published-articles', async (req, res) => {
     const { importantArticles, nonImportantArticles } = await listPublishedArticles();
     const allArticles = [...importantArticles, ...nonImportantArticles];
     const articleKeys = allArticles.map(article => article.key);
-    const readCounts = await getReadCounts(articleKeys);
+    try {
+      const readCounts = await getReadCounts(articleKeys);
+    } catch (error) {
+      console.error('Error in getReadCounts:', JSON.stringify({ articleKeys, error }, null, 2));
+      throw error;
+    }
     const readCountMap = readCounts.reduce((map, item) => {
       map[item.articleKey] = item.readCount || 0;
       return map;
