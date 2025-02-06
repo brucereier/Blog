@@ -45,7 +45,7 @@ const projects = [
     {
         image: '/bruce.jpeg',
         title: 'Personal Portfolio',
-        link: 'https://www.brucereier.dev',
+        link: 'https://github.com/brucereier/Blog',
         description: 'Developed a personal portfolio to display software projects/experiences and writing projects.',
         tools: ['React', 'Express.js', 'Node.js']
     },
