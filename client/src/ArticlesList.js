@@ -1,69 +1,150 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Tabs,
+  Tab,
+  CircularProgress,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 function ArticlesList() {
   const [importantArticles, setImportantArticles] = useState([]);
   const [nonImportantArticles, setNonImportantArticles] = useState([]);
+  const [bookReviews, setBookReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [tab, setTab] = useState(0);
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    const fetchArticles = async () => {
+    const fetchData = async () => {
       try {
         const baseURL = process.env.REACT_APP_API_BASE_URL;
-        const response = await fetch(`${baseURL}/published-articles`);
-        const data = await response.json();
-        setImportantArticles(data.importantArticles);
+        const [articlesRes, reviewsRes] = await Promise.all([
+          fetch(`${baseURL}/published-articles`),
+          fetch(`${baseURL}/book-reviews`),
+        ]);
+        const articlesData = await articlesRes.json();
+        const reviewsData = await reviewsRes.json();
+        setImportantArticles(articlesData.importantArticles);
         setNonImportantArticles(
-          data.nonImportantArticles.filter(article => !article.title.includes('Book Review'))
+          articlesData.nonImportantArticles.filter(
+            (article) => !article.title.includes('Book Review')
+          )
         );
+        setBookReviews(reviewsData.bookReviews);
       } catch (error) {
-        console.error('Error fetching articles:', error);
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchArticles();
+    fetchData();
   }, []);
 
   const handleCardClick = (key) => {
     navigate(`/article/${encodeURIComponent(key)}`);
   };
 
-  const renderArticleCard = (article) => (
-    <Grid item xs={12} md={4} key={article.key}>
+  const renderCard = (item) => (
+    <Grid item xs={12} key={item.key}>
       <Card
-        onClick={() => handleCardClick(article.key)}
+        onClick={() => handleCardClick(item.key)}
         sx={{
           cursor: 'pointer',
           transition: 'transform 0.3s, box-shadow 0.3s',
-          '&:hover': {
-            transform: 'scale(1.05)',
-            boxShadow: 6,
-          },
+          '&:hover': { transform: 'scale(1.05)', boxShadow: 6 },
         }}
       >
         <CardContent>
-          <Typography variant="h6">{article.title}</Typography>
-          <Typography variant="body2">{article.date}</Typography>
-          <Typography variant="body2">Read Count: {article.readCount}</Typography>
+          <Typography variant="h6">
+            {item.title}
+            {item.author ? ` by ${item.author}` : ''}
+          </Typography>
+          <Typography variant="body2">{item.date}</Typography>
+          <Typography variant="body2">Read Count: {item.readCount}</Typography>
         </CardContent>
       </Card>
     </Grid>
   );
 
-  return (
-    <Box sx={{ marginTop: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Important Articles
-      </Typography>
-      <Grid container spacing={4}>
-        {importantArticles.map(renderArticleCard)}
-      </Grid>
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
-      <Typography variant="h4" gutterBottom sx={{ marginTop: 4 }}>
-        Throwaway Articles
-      </Typography>
+  if (isMobile) {
+    return (
+      <Box sx={{ mt: 4 }}>
+        <Tabs value={tab} onChange={(e, newVal) => setTab(newVal)} centered>
+          <Tab label="Important" />
+          <Tab label="Book Reviews" />
+          <Tab label="Throwaway" />
+        </Tabs>
+        <Box sx={{ mt: 2 }}>
+          {tab === 0 && (
+            <>
+              <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
+                Important Articles
+              </Typography>
+              <Grid container spacing={2}>
+                {importantArticles.map(renderCard)}
+              </Grid>
+            </>
+          )}
+          {tab === 1 && (
+            <>
+              <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
+                Book Reviews
+              </Typography>
+              <Grid container spacing={2}>
+                {bookReviews.map(renderCard)}
+              </Grid>
+            </>
+          )}
+          {tab === 2 && (
+            <>
+              <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
+                Throwaway Articles
+              </Typography>
+              <Grid container spacing={2}>
+                {nonImportantArticles.map(renderCard)}
+              </Grid>
+            </>
+          )}
+        </Box>
+      </Box>
+    );
+  }
+
+  // Desktop: three columns side by side with centered headings (no scrolling)
+  return (
+    <Box sx={{ mt: 4 }}>
       <Grid container spacing={4}>
-        {nonImportantArticles.map(renderArticleCard)}
+        {[
+          { title: 'Important Articles', items: importantArticles },
+          { title: 'Book Reviews', items: bookReviews },
+          { title: 'Throwaway Articles', items: nonImportantArticles },
+        ].map(({ title, items }) => (
+          <Grid item xs={12} md={4} key={title}>
+            <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
+              {title}
+            </Typography>
+            <Grid container spacing={2}>
+              {items.map(renderCard)}
+            </Grid>
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

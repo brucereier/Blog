@@ -13,11 +13,9 @@ function Writing() {
     const fetchWordCounts = async () => {
       try {
         const baseURL = process.env.REACT_APP_API_BASE_URL;
-        const totalWordCountURL = baseURL + '/wordcount';
-        const publishedWordCountURL = baseURL + '/publishedwordcount';
         const [totalResponse, publishedResponse] = await Promise.all([
-          fetch(totalWordCountURL).then(res => res.json()),
-          fetch(publishedWordCountURL).then(res => res.json())
+          fetch(`${baseURL}/wordcount`).then(res => res.json()),
+          fetch(`${baseURL}/publishedwordcount`).then(res => res.json()),
         ]);
         setTotalWordCount(totalResponse.wordCount);
         setPublishedWordCount(publishedResponse.wordCount);
@@ -27,55 +25,44 @@ function Writing() {
         setLoading(false);
       }
     };
-
     fetchWordCounts();
   }, []);
 
+  const renderWordCountCard = (title, count, loadingText) => (
+    <Grid item xs={12} md={6}>
+      <Card sx={{ p: 2, textAlign: 'center' }}>
+        <CardContent>
+          {loading ? (
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <CircularProgress color="inherit" size={24} />
+              <Typography variant="body1" ml={2}>
+                {loadingText}
+              </Typography>
+            </Box>
+          ) : (
+            <>
+              <Typography variant="h5" gutterBottom>
+                {title}
+              </Typography>
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                {count}
+              </Typography>
+            </>
+          )}
+        </CardContent>
+      </Card>
+    </Grid>
+  );
+
   return (
-    <Box sx={{ padding: 4 }}>
+    <Box sx={{ p: 4 }}>
       <Grid container spacing={4}>
-        <Grid item xs={12} md={6}>
-          <Card sx={{ padding: 2, textAlign: 'center' }}>
-            <CardContent>
-              {loading ? (
-                <CircularProgress color="inherit" size={24} />
-              ) : (
-                <>
-                  <Typography variant="h5" gutterBottom>
-                    Vaulted Word Count
-                  </Typography>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    {totalWordCount}
-                  </Typography>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Card sx={{ padding: 2, textAlign: 'center' }}>
-            <CardContent>
-              {loading ? (
-                <CircularProgress color="inherit" size={24} />
-              ) : (
-                <>
-                  <Typography variant="h5" gutterBottom>
-                    Published Word Count
-                  </Typography>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    {publishedWordCount}
-                  </Typography>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
+        {renderWordCountCard('Vaulted Word Count', totalWordCount, 'Fetching Vaulted Word Count...')}
+        {renderWordCountCard('Published Word Count', publishedWordCount, 'Fetching Published Word Count...')}
       </Grid>
       <ArticlesList />
-      <BookReviews />
     </Box>
   );
 }
 
 export default Writing;
-
