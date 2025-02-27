@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Card, CardContent, Typography, Grid, CircularProgress } from '@mui/material';
 import ArticlesList from './ArticlesList';
-import BookReviews from './BookReviews';
 
 function Writing() {
   const [totalWordCount, setTotalWordCount] = useState(0);
