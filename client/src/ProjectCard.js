@@ -5,11 +5,12 @@ function ProjectCard({ image, title, link, description, tools }) {
   return (
     <Card
       sx={{
+        borderRadius: '30px', // Increased rounding
         display: 'flex',
         flexDirection: { xs: 'column', sm: 'row' },
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 2,
+        p: 2,
         width: '100%',
         transition: 'transform 0.3s, box-shadow 0.3s',
         backgroundColor: '#292828',
@@ -40,7 +41,7 @@ function ProjectCard({ image, title, link, description, tools }) {
           textAlign: { xs: 'center', sm: 'left' },
         }}
       >
-        <Typography variant="h6" component="div" gutterBottom>
+        <Typography variant="h6" gutterBottom>
           {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -52,7 +53,7 @@ function ProjectCard({ image, title, link, description, tools }) {
             flexWrap: 'wrap',
             alignItems: 'center',
             gap: 1,
-            marginTop: 2,
+            mt: 2,
           }}
         >
           {tools.map((tool) => {
