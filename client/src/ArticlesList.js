@@ -59,8 +59,13 @@ function ArticlesList() {
         onClick={() => handleCardClick(item.key)}
         sx={{
           cursor: 'pointer',
+          borderRadius: '15px', // Rounded corners
+          boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)', // Pronounced shadow
           transition: 'transform 0.3s, box-shadow 0.3s',
-          '&:hover': { transform: 'scale(1.05)', boxShadow: 6 },
+          '&:hover': {
+            transform: 'scale(1.05)',
+            boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)',
+          },
         }}
       >
         <CardContent>
@@ -127,7 +132,6 @@ function ArticlesList() {
     );
   }
 
-  // Desktop: three columns side by side with centered headings (no scrolling)
   return (
     <Box sx={{ mt: 4 }}>
       <Grid container spacing={4}>

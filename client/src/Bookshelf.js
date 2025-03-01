@@ -74,21 +74,18 @@ function Bookshelf() {
     if (filteredBookReviews.length <= BOOKS_PER_PAGE) {
       return filteredBookReviews;
     }
-
     const end = (currentIndex + BOOKS_PER_PAGE) % filteredBookReviews.length;
-    if (end >= currentIndex) {
-      return filteredBookReviews.slice(currentIndex, end);
-    } else {
-      return [...filteredBookReviews.slice(currentIndex), ...filteredBookReviews.slice(0, end)];
-    }
+    return end >= currentIndex
+      ? filteredBookReviews.slice(currentIndex, end)
+      : [...filteredBookReviews.slice(currentIndex), ...filteredBookReviews.slice(0, end)];
   };
 
   const scrollLeft = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + filteredBookReviews.length) % filteredBookReviews.length);
+    setCurrentIndex((prev) => (prev - 1 + filteredBookReviews.length) % filteredBookReviews.length);
   };
 
   const scrollRight = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % filteredBookReviews.length);
+    setCurrentIndex((prev) => (prev + 1) % filteredBookReviews.length);
   };
 
   const fetchReviewContent = async (key) => {
@@ -111,10 +108,7 @@ function Bookshelf() {
 
   return (
     <Box sx={{ padding: 4 }}>
-      <Typography variant="h4" component="div" gutterBottom>
-        Bookshelf
-      </Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
         <TextField
           label="Search Books"
           variant="outlined"
@@ -138,12 +132,12 @@ function Bookshelf() {
                 display: 'flex',
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
-                padding: 2,
+                p: 2,
                 borderRadius: 1,
                 height: 500,
                 width: 950,
                 justifyContent: 'center',
-                padding: '20px',
+                p: '20px',
               }}
             >
               {getVisibleBooks().map((review, index) => {
@@ -157,7 +151,7 @@ function Bookshelf() {
                       height: '100%',
                       backgroundColor: primary,
                       color: secondary,
-                      margin: '0 10px',
+                      m: '0 10px',
                       textAlign: 'center',
                       whiteSpace: 'normal',
                       overflow: 'hidden',
@@ -193,15 +187,22 @@ function Bookshelf() {
             </IconButton>
           </Box>
           {selectedReview && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
-              <Paper sx={{ padding: 4, width: 'calc(100% - 100px)', maxWidth: 900 }}>
-                <Typography variant="h4" component="div" gutterBottom>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+              <Paper
+                sx={{
+                  p: 4,
+                  width: 'calc(100% - 100px)',
+                  maxWidth: 900,
+                  borderRadius: '15px', // Rounded selected article
+                }}
+              >
+                <Typography variant="h4" gutterBottom>
                   Review: {selectedReview.title} by {selectedReview.author}
                 </Typography>
                 {loadingReview ? (
                   <CircularProgress />
                 ) : (
-                  <Typography variant="body1" component="div" sx={{ whiteSpace: 'pre-wrap' }}>
+                  <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
                     {selectedReviewContent}
                   </Typography>
                 )}

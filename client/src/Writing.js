@@ -29,7 +29,14 @@ function Writing() {
 
   const renderWordCountCard = (title, count, loadingText) => (
     <Grid item xs={12} md={6}>
-      <Card sx={{ p: 2, textAlign: 'center' }}>
+      <Card
+        sx={{
+          p: 2,
+          textAlign: 'center',
+          borderRadius: '20px',
+          boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)',
+        }}
+      >
         <CardContent>
           {loading ? (
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
