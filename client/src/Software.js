@@ -10,7 +10,7 @@ const projects = [
     {
         image: '/metabob.gif',
         title: 'Meta SWE Intern',
-        description: 'Incoming Summer 2025',
+        description: 'Summer 2025 - AI Privacy and Governance',
         tools: []
     },
     {
@@ -24,7 +24,7 @@ const projects = [
         image: '/garmin.jpeg',
         title: 'Garmin SWE Intern',
         link: 'https://www.garmin.com/en-US/',
-        description: 'Built a web application to facilitate the creation, approval, and deployment of subscription plans into Garmin\'s system.',
+        description: 'Summer 2024 - Subscriptions',
         tools: ['Blazor', 'C#', 'SQL Server']
     },
     {
@@ -80,7 +80,7 @@ function Software() {
                     <Card sx={{ flex: 1, p: 4, ...cardStyle, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Avatar
                             alt="Bruce Reier"
-                            src="/bruce.jpeg"
+                            src="/bruce.jpg"
                             sx={{ width: 300, height: 300, boxShadow: 2 }}
                         />
                     </Card>
@@ -128,7 +128,7 @@ function Software() {
                                 </IconButton>
                             </Box>
                             <Typography variant="body1" sx={{ fontSize: '1.2rem' }}>
-                                Hey! I'm Bruce, a Software Developer studying Computer Science and Math at UNC Chapel Hill. I'll be interning at Meta in Menlo Park this upcoming summer. I'm interested in all things tech, but specifically full stack development. You can check out some of my projects/experience below. Outside of developing I enjoy weightlifting, reading/writing, and watching the Chicago Bears/Cubs. Feel free to connect with me or reach out to me to chat!
+                                Hey! I'm Bruce, a Software Developer studying Computer Science and Math at UNC Chapel Hill. I'll be joining Meta as a SWE following my graduation in December 2025 after interning there during the summer. I'm interested in all things tech, but specifically full stack development. You can check out some of my projects/experience below. Outside of developing I enjoy weightlifting, running, reading/writing, and watching the Chicago Bears/Cubs. Feel free to connect with me or reach out to me to chat!
                             </Typography>
                         </CardContent>
                     </Card>
