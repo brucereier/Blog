@@ -15,7 +15,7 @@ function Article() {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const baseURL = process.env.REACT_APP_API_BASE_URL;
+        const baseURL = import.meta.env.VITE_API_BASE_URL;
         const response = await axios.get(`${baseURL}/article/${encodeURIComponent(key)}`);
         setContent(response.data.content);
 
