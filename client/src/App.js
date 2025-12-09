@@ -8,15 +8,15 @@ import Bookshelf from './Bookshelf';
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Software />} />
-        <Route path="/writing" element={<Writing />} />
-        <Route path="/article/:key" element={<Article />} />
-        <Route path="/bookshelf" element={<Bookshelf />} />
-      </Routes>
-    </Router>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Software />} />
+          <Route path="/writing" element={<Writing />} />
+          <Route path="/article/:key" element={<Article />} />
+          <Route path="/bookshelf" element={<Bookshelf />} />
+        </Routes>
+      </Router>
   );
 }
 
