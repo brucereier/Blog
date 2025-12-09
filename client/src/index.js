@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from '@mui/material/styles';
+import { Analytics } from "@vercel/analytics/react"
 import CssBaseline from '@mui/material/CssBaseline';
 import darkTheme from './theme';
 
@@ -14,6 +15,7 @@ root.render(
             <CssBaseline />
             <App />
         </ThemeProvider>
+        <Analytics />
     </React.StrictMode>
 );
 
