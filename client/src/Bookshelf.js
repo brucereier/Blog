@@ -43,7 +43,7 @@ function Bookshelf() {
   useEffect(() => {
     const fetchBookReviews = async () => {
       try {
-        const baseURL = process.env.REACT_APP_API_BASE_URL;
+        const baseURL = import.meta.env.VITE_API_BASE_URL;
         const response = await axios.get(`${baseURL}/book-reviews`);
         const reviews = response.data.bookReviews.map(review => ({
           ...review,
@@ -91,7 +91,7 @@ function Bookshelf() {
   const fetchReviewContent = async (key) => {
     setLoadingReview(true);
     try {
-      const baseURL = process.env.REACT_APP_API_BASE_URL;
+      const baseURL = import.meta.env.VITE_API_BASE_URL;
       const response = await axios.get(`${baseURL}/article/${encodeURIComponent(key)}`);
       setSelectedReviewContent(response.data.content);
     } catch (error) {

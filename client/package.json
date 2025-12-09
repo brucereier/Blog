@@ -19,17 +19,15 @@
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.3",
     "react-router-dom": "^6.23.1",
-    "react-scripts": "5.0.1",
     "remark-gfm": "^4.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"npm run start-react\" \"npm run start-server\"",
-    "build": "react-scripts build",
-    "start-react": "react-scripts start",
-    "start-server": "node -r dotenv/config ../word-counter-backend/server.js",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "concurrently \"npm run dev\" \"npm run start-server\"",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start-server": "node -r dotenv/config ../word-counter-backend/server.js"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +48,8 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@vitejs/plugin-react": "^5.1.2",
+    "concurrently": "^8.2.2",
+    "vite": "^7.2.7"
   }
 }

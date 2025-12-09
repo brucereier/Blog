@@ -11,7 +11,7 @@ function Writing() {
     setLoading(true);
     const fetchWordCounts = async () => {
       try {
-        const baseURL = process.env.REACT_APP_API_BASE_URL;
+        const baseURL = import.meta.env.VITE_API_BASE_URL;
         const [totalResponse, publishedResponse] = await Promise.all([
           fetch(`${baseURL}/wordcount`).then(res => res.json()),
           fetch(`${baseURL}/publishedwordcount`).then(res => res.json()),
