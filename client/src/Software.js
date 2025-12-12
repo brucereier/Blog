@@ -9,7 +9,13 @@ const tools = ['React', 'Firestore', 'Python', 'Blazor', 'C#', 'SQL Server', 'Ex
 const projects = [
     {
         image: '/metabob.gif',
-        title: 'Meta SWE Intern',
+        title: 'Meta - SWE',
+        description: 'Starting February 2025',
+        tools: []
+    },
+    {
+        image: '/metabob.gif',
+        title: 'Meta - SWE Intern',
         description: 'Summer 2025 - AI Privacy and Governance',
         tools: []
     },
@@ -22,7 +28,7 @@ const projects = [
     },
     {
         image: '/garmin.jpeg',
-        title: 'Garmin SWE Intern',
+        title: 'Garmin - SWE Intern',
         link: 'https://www.garmin.com/en-US/',
         description: 'Summer 2024 - Subscriptions',
         tools: ['Blazor', 'C#', 'SQL Server']
